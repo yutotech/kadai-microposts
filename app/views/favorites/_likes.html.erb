@@ -1,0 +1,25 @@
+<ul class="list-unstyled">
+    <% likes.each do |like| %>
+        <li class="media mb-3">
+            <img class="mr-2 rounded" src="<%= gravatar_url(like.user, {size:50}) %>" alt="">
+            <div class="media-body">
+                <div>
+                    <%= link_to like.user.name, user_path(like.user) %><span class="text-muted">posted at<%= like.created_at %></span>
+                </div>
+                <div>
+                    <p><%= like.content %></p>
+                </div>
+                <div>
+                    <!--追記箇所-->
+                    <% if current_user.like?(like) %>
+                        <%= form_with(model: current_user.favorites.find_by(micropost_id: like.id), local: true, method: :delete) do |f| %>
+                            <%= hidden_field_tag :micropost_id, like.id %>
+                            <%= f.submit "Unfavorite", class: "btn btn-danger btn-sm" %>
+                        <% end %>
+                    <% end %>
+                </div>
+            </div>
+        </li>
+    <% end %>
+    <%= paginate likes %>
+</ul>
