@@ -5,6 +5,6 @@ class Micropost < ApplicationRecord
 
   has_many :reverses_of_favorite, class_name: "Favorite"
   has_many :favoruser, through: :reverses_of_favorite, source: :user
-
+  has_many :favorites, dependent: :destroy
 
 end
